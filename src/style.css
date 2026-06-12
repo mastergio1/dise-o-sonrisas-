@@ -1,0 +1,595 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================================================
+   BASE
+   =========================================================================== */
+@layer base {
+  :root {
+    --electric: #2b4cff; /* único acento — cambiar aquí propaga a todo el sitio */
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    /* Evita layout shift por scrollbar */
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--electric);
+    color: #fff;
+  }
+
+  /* Focus visible AA en toda la interfaz */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--electric);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Pesos de fuente como utilidades cómodas */
+  .font-500 { font-weight: 500; }
+  .font-600 { font-weight: 600; }
+  .font-700 { font-weight: 700; }
+}
+
+/* ===========================================================================
+   MOTIVOS DE FONDO — retícula de puntos sutil
+   =========================================================================== */
+.dot-grid {
+  background-image: radial-gradient(rgba(17, 17, 17, 0.09) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 40%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 40%, #000 35%, transparent 100%);
+}
+
+/* Nav: fondo al hacer scroll (toggle por JS) */
+#nav.is-scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom-color: rgba(17, 17, 17, 0.08);
+}
+
+/* ===========================================================================
+   MARQUEE
+   =========================================================================== */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee__track {
+  display: inline-flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee__group {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-right: 1.5rem;
+}
+.marquee__group > span {
+  display: inline-block;
+}
+.marquee__dot {
+  color: var(--electric);
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===========================================================================
+   SCROLLYTELLING
+   =========================================================================== */
+.scrolly {
+  position: relative;
+}
+
+/* El lienzo se queda pegado mientras los pasos hacen scroll por encima */
+.scrolly__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.scrolly__canvas {
+  position: relative;
+  width: min(92vw, 760px);
+  aspect-ratio: 1 / 1;
+  max-height: 78svh;
+  margin: 0 auto;
+}
+
+.scrolly__stage {
+  position: absolute;
+  inset: 0;
+}
+.scrolly__stage svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* HUD tipo software de diseño */
+.scrolly__hud {
+  position: absolute;
+  left: 0;
+  bottom: -2.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.scrolly__step {
+  color: var(--electric);
+  font-variant-numeric: tabular-nums;
+}
+.scrolly__label {
+  font-weight: 600;
+  color: #111;
+}
+.scrolly__note {
+  color: #8a8a8a;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Los pasos de texto */
+.scrolly__steps {
+  position: relative;
+  z-index: 2;
+  margin-top: -100svh; /* superponer sobre el sticky */
+  pointer-events: none;
+}
+.scrolly__panel {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+.scrolly__panel > * {
+  pointer-events: auto;
+  max-width: 28rem;
+}
+.scrolly__panel-tag {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--electric);
+  margin-bottom: 1rem;
+}
+.scrolly__panel-title {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  line-height: 0.98;
+  margin-bottom: 1rem;
+}
+.scrolly__panel p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(17, 17, 17, 0.72);
+}
+
+@media (min-width: 768px) {
+  /* En desktop el texto va a la izquierda y el lienzo a la derecha */
+  .scrolly__sticky {
+    justify-content: flex-end;
+    padding-right: max(2rem, calc((100vw - 1320px) / 2 + 2rem));
+  }
+  .scrolly__canvas {
+    margin: 0;
+    width: min(46vw, 600px);
+  }
+  .scrolly__panel {
+    padding-left: max(2rem, calc((100vw - 1320px) / 2 + 2rem));
+  }
+}
+
+/* ===========================================================================
+   FALLBACK ESTÁTICO (reduced-motion)
+   =========================================================================== */
+.scrolly-static {
+  display: grid;
+  gap: 2rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+.scrolly-static__panel {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(17, 17, 17, 0.1);
+}
+@media (min-width: 768px) {
+  .scrolly-static__panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.scrolly-static__panel svg {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+
+/* ===========================================================================
+   SERVICIOS — fichas técnicas
+   =========================================================================== */
+.spec-card {
+  background: #fff;
+  padding: 2rem 1.75rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  transition: background-color 0.25s ease;
+}
+.spec-card:hover {
+  background: #fafafa;
+}
+.spec-card__serial {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--electric);
+  font-variant-numeric: tabular-nums;
+}
+.spec-card__name {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.5rem;
+  margin-top: 0.75rem;
+}
+.spec-card__desc {
+  margin-top: 0.75rem;
+  color: rgba(17, 17, 17, 0.65);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.spec-card--wide {
+  min-height: auto;
+  gap: 1.5rem;
+}
+
+/* Selector de ortodoncia */
+.ortho__viz {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: #fafafa;
+}
+.ortho__viz svg {
+  width: 72px;
+  height: 72px;
+}
+.ortho__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.ortho__tab {
+  font-size: 0.85rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  border-radius: 999px;
+  color: rgba(17, 17, 17, 0.7);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.ortho__tab:hover {
+  border-color: rgba(17, 17, 17, 0.4);
+}
+.ortho__tab.is-active {
+  background: var(--electric);
+  border-color: var(--electric);
+  color: #fff;
+}
+.ortho__detail {
+  color: rgba(17, 17, 17, 0.7);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  min-height: 3rem;
+  transition: opacity 0.2s ease;
+}
+
+/* ===========================================================================
+   TECNOLOGÍA PROPIA (sección oscura)
+   =========================================================================== */
+.tech-card {
+  background: #111;
+  padding: 2.5rem 2rem;
+}
+.tech-card__num {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #fff;
+  border: 1px solid var(--electric);
+  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+}
+.tech-card__title {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.75rem;
+  margin-top: 1.25rem;
+}
+.tech-card__desc {
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+.tech-card__list {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.6rem;
+}
+.tech-card__list li {
+  position: relative;
+  padding-left: 1.4rem;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+.tech-card__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 7px;
+  height: 7px;
+  background: var(--electric);
+  border-radius: 50%;
+}
+
+/* ===========================================================================
+   ANTES / DESPUÉS
+   =========================================================================== */
+.ba {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  user-select: none;
+  touch-action: pan-y;
+}
+.ba__layer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ba__before {
+  background: repeating-linear-gradient(45deg, #ededea, #ededea 12px, #e6e6e2 12px, #e6e6e2 24px);
+  color: #8a8a8a;
+}
+.ba__after {
+  background: linear-gradient(135deg, #eaf0ff, #f6f8ff);
+  color: var(--electric);
+  clip-path: inset(0 0 0 50%);
+}
+.ba__tag {
+  position: absolute;
+  top: 0.75rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 11px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.85);
+}
+.ba__before .ba__tag { left: 0.75rem; }
+.ba__after .ba__tag { right: 0.75rem; }
+.ba__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: var(--electric);
+  transform: translateX(-1px);
+}
+.ba__grip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--electric);
+  display: grid;
+  place-items: center;
+  color: var(--electric);
+  cursor: ew-resize;
+  font-size: 14px;
+}
+.ba__range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: ew-resize;
+  margin: 0;
+}
+
+/* ===========================================================================
+   EQUIPO
+   =========================================================================== */
+.team-card {
+  text-align: left;
+}
+.team-card__photo {
+  aspect-ratio: 4 / 5;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px dashed rgba(17, 17, 17, 0.2);
+  display: grid;
+  place-items: center;
+  color: rgba(17, 17, 17, 0.18);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+.team-card__name {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+.team-card__role {
+  color: #8a8a8a;
+  font-size: 0.9rem;
+}
+
+/* ===========================================================================
+   INSTAGRAM
+   =========================================================================== */
+.ig-cell {
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f0f0ee, #f7f7f5);
+  border: 1px solid rgba(17, 17, 17, 0.06);
+  display: grid;
+  place-items: center;
+  color: rgba(17, 17, 17, 0.22);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 700;
+  transition: transform 0.2s ease;
+}
+.ig-cell:hover {
+  transform: scale(1.02);
+  color: var(--electric);
+}
+
+/* ===========================================================================
+   FORMULARIO
+   =========================================================================== */
+.contact-form {
+  display: grid;
+  gap: 1.1rem;
+  background: var(--paper, #f5f5f3);
+  padding: 2rem;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+}
+.contact-form__row {
+  display: grid;
+  gap: 0.4rem;
+}
+.contact-form__row label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #8a8a8a;
+}
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #111;
+}
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #b5b5b5;
+}
+.contact-form__submit {
+  margin-top: 0.4rem;
+  background: #111;
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.85rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.contact-form__submit:hover {
+  transform: translateY(-2px);
+}
+.contact-form__submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+}
+.contact-form__status {
+  font-size: 0.9rem;
+  min-height: 1.2rem;
+}
+.contact-form__status.is-ok {
+  color: var(--electric);
+}
+.contact-form__note {
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+/* ===========================================================================
+   REVEAL — micro-aparición de secciones (desactivado en reduced-motion)
+   =========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ===========================================================================
+   REDUCED MOTION — desactiva animaciones reales
+   =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee__track {
+    animation: none;
+    transform: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

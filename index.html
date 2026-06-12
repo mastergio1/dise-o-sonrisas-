@@ -1,0 +1,672 @@
+<!doctype html>
+<!--
+  ============================================================================
+  DISEÑO DE SONRISAS — Sitio demo (especulativo) · Pieza #4 del portafolio
+  ============================================================================
+  Demo NO oficial creada como propuesta de venta para la clínica real
+  "Diseño de Sonrisas" (Tomás Moro 1806, Las Condes, Santiago de Chile).
+
+  TRES ARGUMENTOS DE VENTA DE ESTA DEMO:
+
+  (a) SU NOMBRE ES LA KEYWORD. La clínica se llama literalmente como el
+      término más buscado del rubro estético dental ("diseño de sonrisas").
+      Hoy lo desperdician con un Wix sin SEO; aquí el nombre se convierte en
+      H1, title, meta description y schema.org Dentist — capitalizando por
+      fin el activo SEO que ya poseen.
+
+  (b) SU TECNOLOGÍA, VISIBLE. Tienen escáner intraoral 3D y sala de
+      radiología propia (inversión real) que su web actual esconde. Esta
+      demo los convierte en el héroe del relato: el scrollytelling "Así
+      diseñamos tu sonrisa" nace literalmente del escaneo 3D.
+
+  (c) DE WIX AMATEUR A ESTUDIO DE DISEÑO. Su web actual tiene typos
+      publicados ("especiaslista"), fotos caseras y email Gmail. Esta pieza
+      es una experiencia editorial-técnica con objetivo Lighthouse 90+,
+      accesibilidad AA y reservas reales por WhatsApp.
+
+  Nota ética: cero datos inventados. Todo lo no verificado va marcado como
+  [CONFIRMAR CON CLIENTE]. El email contacto@disenodesonrisas.cl es una
+  PROPUESTA (su email actual es Gmail).
+  ============================================================================
+-->
+<html lang="es-CL">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- SEO on-page: el nombre ES la keyword -->
+    <title>Diseño de Sonrisas | Clínica de Odontología Estética en Las Condes</title>
+    <meta
+      name="description"
+      content="Diseño de sonrisa con carillas cerámicas, Invisalign y blanqueamiento en Las Condes, Santiago. Escáner intraoral 3D y radiología propia. Estudio de odontología estética."
+    />
+    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="author" content="Diseño de Sonrisas" />
+    <link rel="canonical" href="https://www.disenodesonrisas.cl/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:site_name" content="Diseño de Sonrisas" />
+    <meta
+      property="og:title"
+      content="Diseño de Sonrisas | Clínica de Odontología Estética en Las Condes"
+    />
+    <meta
+      property="og:description"
+      content="Carillas cerámicas, Invisalign y blanqueamiento en Las Condes. Escáner intraoral 3D y radiología propia. No improvisamos sonrisas: las diseñamos."
+    />
+    <meta property="og:url" content="https://www.disenodesonrisas.cl/" />
+    <meta property="og:image" content="https://www.disenodesonrisas.cl/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Fuentes: display=swap, sin layout shift -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- schema.org Dentist — datos reales verificados (10-06-2026) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Dentist",
+        "name": "Diseño de Sonrisas — Clínica de Odontología Estética",
+        "description": "Estudio de odontología estética en Las Condes: diseño de sonrisa, carillas cerámicas y de resina, Invisalign, blanqueamiento e implantes. Escáner intraoral 3D y sala de radiología oral propia.",
+        "url": "https://www.disenodesonrisas.cl/",
+        "telephone": "+56949324186",
+        "image": "https://www.disenodesonrisas.cl/og-image.png",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Tomás Moro 1806",
+          "addressLocality": "Las Condes",
+          "addressRegion": "Región Metropolitana",
+          "addressCountry": "CL"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "09:00",
+            "closes": "19:30"
+          }
+        ],
+        "sameAs": ["https://www.instagram.com/disenodesonrisaschile/"],
+        "medicalSpecialty": "Dentistry",
+        "availableService": [
+          { "@type": "MedicalProcedure", "name": "Carillas cerámicas" },
+          { "@type": "MedicalProcedure", "name": "Carillas de resina" },
+          { "@type": "MedicalProcedure", "name": "Blanqueamiento dental" },
+          { "@type": "MedicalProcedure", "name": "Implantes dentales" },
+          { "@type": "MedicalProcedure", "name": "Ortodoncia e Invisalign" }
+        ]
+      }
+    </script>
+
+    <script type="module" src="/src/main.js"></script>
+  </head>
+
+  <body class="bg-white font-sans text-ink antialiased">
+    <a
+      href="#diseno"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
+      >Saltar al proceso</a
+    >
+
+    <!-- ===================== NAV FIJA ===================== -->
+    <header
+      id="nav"
+      class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300"
+    >
+      <div
+        class="mx-auto flex max-w-editorial items-center justify-between px-5 py-4 md:px-8"
+      >
+        <a href="#top" class="group flex items-center gap-2" aria-label="Diseño de Sonrisas, inicio">
+          <span
+            class="inline-block h-2.5 w-2.5 rounded-full bg-electric"
+            aria-hidden="true"
+          ></span>
+          <span class="font-display text-[15px] font-700 tracking-tightest"
+            >Diseño de Sonrisas</span
+          >
+        </a>
+        <nav class="hidden items-center gap-7 text-[13px] text-meta md:flex" aria-label="Principal">
+          <a class="transition-colors hover:text-ink" href="#diseno">El proceso</a>
+          <a class="transition-colors hover:text-ink" href="#servicios">Servicios</a>
+          <a class="transition-colors hover:text-ink" href="#tecnologia">Tecnología</a>
+          <a class="transition-colors hover:text-ink" href="#casos">Casos</a>
+          <a class="transition-colors hover:text-ink" href="#ubicacion">Ubicación</a>
+        </nav>
+        <a
+          href="#contacto"
+          class="rounded-full bg-ink px-4 py-2 text-[13px] font-500 text-white transition-transform hover:-translate-y-0.5"
+          >Diseña tu sonrisa</a
+        >
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- ===================== HERO ===================== -->
+      <section
+        id="hero"
+        class="relative flex min-h-[100svh] flex-col justify-center overflow-hidden px-5 pb-16 pt-28 md:px-8"
+      >
+        <!-- Malla de puntos del escaneo (canvas, lazy/sutil) -->
+        <canvas
+          id="hero-mesh"
+          class="pointer-events-none absolute inset-0 h-full w-full opacity-70"
+          aria-hidden="true"
+        ></canvas>
+        <div class="dot-grid pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+        <div class="relative mx-auto w-full max-w-editorial">
+          <p class="mb-6 flex items-center gap-3 text-[12px] uppercase tracking-[0.18em] text-meta">
+            <span class="inline-block h-px w-8 bg-electric" aria-hidden="true"></span>
+            FIG. 00 — Estudio de odontología estética · Las Condes
+          </p>
+          <h1
+            class="font-display text-[clamp(3.2rem,13vw,11rem)] font-700 leading-[0.86] tracking-tightest"
+          >
+            Tu sonrisa,<br /><span class="text-electric">diseñada.</span>
+          </h1>
+          <p class="mt-8 max-w-xl text-lg leading-relaxed text-ink/80">
+            No improvisamos sonrisas. Las diseñamos. Escaneo intraoral 3D,
+            radiología propia y un plan dibujado para tu rostro.
+          </p>
+          <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <a
+              href="#contacto"
+              class="inline-flex items-center justify-center gap-2 rounded-full bg-electric px-7 py-3.5 text-[15px] font-500 text-white transition-transform hover:-translate-y-0.5"
+            >
+              Diseña tu sonrisa
+              <span aria-hidden="true">→</span>
+            </a>
+            <a
+              href="#diseno"
+              class="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-7 py-3.5 text-[15px] font-500 text-ink transition-colors hover:border-ink"
+            >
+              Ver el proceso
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== MARQUEE / BARRA TÉCNICA ===================== -->
+      <section
+        class="border-y border-ink/10 bg-paper py-3.5"
+        aria-label="Tecnología y tratamientos"
+      >
+        <div class="marquee text-[13px] uppercase tracking-[0.14em] text-ink/70">
+          <div class="marquee__track" aria-hidden="false">
+            <span class="marquee__group">
+              <span>Escáner intraoral 3D</span><span class="marquee__dot">·</span>
+              <span>Radiología propia</span><span class="marquee__dot">·</span>
+              <span>Carillas cerámicas</span><span class="marquee__dot">·</span>
+              <span>Invisalign</span><span class="marquee__dot">·</span>
+              <span>Flow Jac System</span><span class="marquee__dot">·</span>
+            </span>
+            <span class="marquee__group" aria-hidden="true">
+              <span>Escáner intraoral 3D</span><span class="marquee__dot">·</span>
+              <span>Radiología propia</span><span class="marquee__dot">·</span>
+              <span>Carillas cerámicas</span><span class="marquee__dot">·</span>
+              <span>Invisalign</span><span class="marquee__dot">·</span>
+              <span>Flow Jac System</span><span class="marquee__dot">·</span>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== SCROLLYTELLING ===================== -->
+      <section id="diseno" class="relative" aria-label="Así diseñamos tu sonrisa">
+        <!-- Encabezado de sección -->
+        <div class="mx-auto max-w-editorial px-5 pt-24 md:px-8 md:pt-32">
+          <p class="mb-4 text-[12px] uppercase tracking-[0.18em] text-electric">
+            FIG. 01 — El proceso
+          </p>
+          <h2
+            class="max-w-4xl font-display text-[clamp(2.2rem,6vw,4.5rem)] font-700 leading-[0.95] tracking-tightest"
+          >
+            Así diseñamos tu sonrisa.
+          </h2>
+          <p class="mt-5 max-w-xl text-lg text-ink/70">
+            Cuatro capas, como cualquier proyecto de diseño. Desplázate para
+            verlas construirse.
+          </p>
+        </div>
+
+        <!-- Lienzo sticky con las 4 capas (JS controla la animación) -->
+        <div id="scrolly" class="scrolly mt-16">
+          <div class="scrolly__sticky">
+            <figure class="scrolly__canvas" role="img" aria-label="Animación de diseño de una sonrisa en cuatro capas: escaneo 3D, estructura con guías de ortodoncia, forma de carillas y color del blanqueamiento.">
+              <!-- El SVG vive en el JS para poder animar stroke/máscaras -->
+              <div id="scrolly-stage" class="scrolly__stage"></div>
+              <figcaption class="scrolly__hud">
+                <span id="scrolly-step" class="scrolly__step">01 / 04</span>
+                <span id="scrolly-label" class="scrolly__label">Escaneo 3D</span>
+                <span id="scrolly-note" class="scrolly__note">Sin pastas de impresión</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <!-- Pasos del scroll (texto que dispara cada capa) -->
+          <div class="scrolly__steps" id="scrolly-steps">
+            <article class="scrolly__panel" data-step="0">
+              <span class="scrolly__panel-tag">Capa 01 — Escaneo</span>
+              <h3 class="scrolly__panel-title">Escaneamos, no moldeamos.</h3>
+              <p>
+                Un escáner intraoral 3D captura cada diente en puntos precisos.
+                Sin pastas, sin arcadas: tu boca se convierte en un modelo
+                digital que viaja directo al laboratorio.
+              </p>
+            </article>
+            <article class="scrolly__panel" data-step="1">
+              <span class="scrolly__panel-tag">Capa 02 — Estructura</span>
+              <h3 class="scrolly__panel-title">Trazamos las guías.</h3>
+              <p>
+                Líneas, reglas y curvas alinean la posición de cada pieza. Aquí
+                entra la ortodoncia —incluido el Flow Jac System— para mover los
+                dientes con control milimétrico.
+              </p>
+            </article>
+            <article class="scrolly__panel" data-step="2">
+              <span class="scrolly__panel-tag">Capa 03 — Forma</span>
+              <h3 class="scrolly__panel-title">Dibujamos la forma.</h3>
+              <p>
+                Las carillas cerámicas se diseñan sobre cada diente como piezas
+                que encajan: proporción, borde y textura pensados para tu
+                rostro.
+              </p>
+            </article>
+            <article class="scrolly__panel" data-step="3">
+              <span class="scrolly__panel-tag">Capa 04 — Color</span>
+              <h3 class="scrolly__panel-title">Afinamos el color.</h3>
+              <p>
+                Un blanqueamiento gradúa el tono hasta el punto justo. El lienzo
+                se limpia y la sonrisa queda lista:
+                <span class="text-electric">diseño aprobado.</span>
+              </p>
+            </article>
+          </div>
+        </div>
+
+        <!-- Fallback estático para prefers-reduced-motion (4 paneles secuenciales) -->
+        <div id="scrolly-static" class="scrolly-static mx-auto max-w-editorial px-5 md:px-8" hidden>
+          <!-- Poblado por JS solo cuando reduced-motion está activo -->
+        </div>
+      </section>
+
+      <!-- ===================== SERVICIOS ===================== -->
+      <section id="servicios" class="mx-auto max-w-editorial px-5 py-24 md:px-8 md:py-32">
+        <p class="mb-4 text-[12px] uppercase tracking-[0.18em] text-electric">
+          FIG. 02 — Especificaciones
+        </p>
+        <h2
+          class="max-w-3xl font-display text-[clamp(2.2rem,6vw,4.5rem)] font-700 leading-[0.95] tracking-tightest"
+        >
+          Cada tratamiento, una ficha técnica.
+        </h2>
+
+        <div class="mt-14 grid gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/10 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Las fichas estándar -->
+          <article class="spec-card">
+            <span class="spec-card__serial">DS—001</span>
+            <h3 class="spec-card__name">Carillas cerámicas</h3>
+            <p class="spec-card__desc">
+              Láminas de cerámica diseñadas pieza por pieza. Máxima estética y
+              durabilidad para un cambio definitivo.
+            </p>
+          </article>
+          <article class="spec-card">
+            <span class="spec-card__serial">DS—002</span>
+            <h3 class="spec-card__name">Carillas de resina</h3>
+            <p class="spec-card__desc">
+              Solución estética conservadora, en menos sesiones. Ideal para
+              correcciones de forma y color puntuales.
+            </p>
+          </article>
+          <article class="spec-card">
+            <span class="spec-card__serial">DS—003</span>
+            <h3 class="spec-card__name">Blanqueamiento</h3>
+            <p class="spec-card__desc">
+              Aclaramos el tono de forma controlada y segura, calibrado al punto
+              justo para tu sonrisa.
+            </p>
+          </article>
+          <article class="spec-card">
+            <span class="spec-card__serial">DS—004</span>
+            <h3 class="spec-card__name">Implantes dentales</h3>
+            <p class="spec-card__desc">
+              Reposición de piezas perdidas con planificación digital previa
+              desde nuestra radiología propia.
+            </p>
+          </article>
+
+          <!-- Ficha de Ortodoncia: ocupa 2 columnas, con sub-selector -->
+          <article class="spec-card spec-card--wide sm:col-span-2" id="ortho">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <span class="spec-card__serial">DS—005</span>
+                <h3 class="spec-card__name">Ortodoncia</h3>
+                <p class="spec-card__desc max-w-md">
+                  Cinco modalidades para mover los dientes a su lugar. Elige una
+                  para ver el sistema:
+                </p>
+              </div>
+              <!-- Ilustración SVG del bracket/alineador (cambia con el selector) -->
+              <div class="ortho__viz" aria-hidden="true">
+                <div id="ortho-illustration"></div>
+              </div>
+            </div>
+
+            <div
+              class="ortho__tabs"
+              role="tablist"
+              aria-label="Modalidades de ortodoncia"
+              id="ortho-tabs"
+            >
+              <button class="ortho__tab is-active" role="tab" aria-selected="true" data-ortho="metalicos">
+                Brackets metálicos
+              </button>
+              <button class="ortho__tab" role="tab" aria-selected="false" data-ortho="ceramicos">
+                Brackets cerámicos
+              </button>
+              <button class="ortho__tab" role="tab" aria-selected="false" data-ortho="invisalign">
+                Invisalign
+              </button>
+              <button class="ortho__tab" role="tab" aria-selected="false" data-ortho="flowjac">
+                Flow Jac System
+              </button>
+              <button class="ortho__tab" role="tab" aria-selected="false" data-ortho="infantil">
+                Ortopedia infantil
+              </button>
+            </div>
+            <p class="ortho__detail" id="ortho-detail" role="tabpanel" aria-live="polite">
+              Sistema clásico y eficiente para cualquier tipo de corrección, con
+              excelente relación costo-resultado.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===================== TECNOLOGÍA PROPIA ===================== -->
+      <section id="tecnologia" class="bg-ink text-white">
+        <div class="mx-auto max-w-editorial px-5 py-24 md:px-8 md:py-32">
+          <p class="mb-4 text-[12px] uppercase tracking-[0.18em] text-electric">
+            FIG. 03 — Tecnología propia
+          </p>
+          <h2
+            class="max-w-4xl font-display text-[clamp(2.2rem,6vw,4.5rem)] font-700 leading-[0.95] tracking-tightest"
+          >
+            El diagnóstico no se externaliza:<br />se diseña en casa.
+          </h2>
+
+          <div class="mt-16 grid gap-px overflow-hidden rounded-2xl border border-white/15 bg-white/15 md:grid-cols-2">
+            <article class="tech-card">
+              <span class="tech-card__num">3D</span>
+              <h3 class="tech-card__title">Escáner intraoral</h3>
+              <p class="tech-card__desc">
+                Impresiones digitales sin pastas ni moldes incómodos. Capturamos
+                tu boca en un modelo 3D exacto que va directo al laboratorio: más
+                precisión, menos sesiones.
+              </p>
+              <ul class="tech-card__list">
+                <li>Sin arcadas ni pastas de impresión</li>
+                <li>Modelo digital al laboratorio en minutos</li>
+                <li>Previsualización del resultado</li>
+              </ul>
+            </article>
+            <article class="tech-card">
+              <span class="tech-card__num">RX</span>
+              <h3 class="tech-card__title">Sala de radiología oral</h3>
+              <p class="tech-card__desc">
+                Radiología de punta dentro de la misma clínica. Tu diagnóstico no
+                depende de derivaciones: lo resolvemos aquí, el mismo día.
+              </p>
+              <ul class="tech-card__list">
+                <li>Imagen diagnóstica en el lugar</li>
+                <li>Planificación de implantes guiada</li>
+                <li>Sin esperas ni traslados</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== ANTES / DESPUÉS ===================== -->
+      <section id="casos" class="mx-auto max-w-editorial px-5 py-24 md:px-8 md:py-32">
+        <p class="mb-4 text-[12px] uppercase tracking-[0.18em] text-electric">
+          FIG. 04 — Casos
+        </p>
+        <h2
+          class="max-w-3xl font-display text-[clamp(2.2rem,6vw,4.5rem)] font-700 leading-[0.95] tracking-tightest"
+        >
+          Antes y después.
+        </h2>
+        <p class="mt-5 max-w-xl text-lg text-ink/70">
+          Arrastra el control para comparar. <span class="text-meta">[Casos reales del cliente — pedir fotos autorizadas]</span>
+        </p>
+
+        <div class="mt-14 grid gap-6 md:grid-cols-3" id="ba-grid">
+          <!-- 3 comparadores: poblados/activados por JS -->
+        </div>
+      </section>
+
+      <!-- ===================== EQUIPO ===================== -->
+      <section id="equipo" class="border-t border-ink/10 bg-paper">
+        <div class="mx-auto max-w-editorial px-5 py-24 md:px-8 md:py-32">
+          <p class="mb-4 text-[12px] uppercase tracking-[0.18em] text-electric">
+            FIG. 05 — Equipo
+          </p>
+          <h2
+            class="max-w-3xl font-display text-[clamp(2.2rem,6vw,4.5rem)] font-700 leading-[0.95] tracking-tightest"
+          >
+            Quienes diseñan.
+          </h2>
+          <p class="mt-5 max-w-xl text-lg text-ink/70">
+            <span class="text-meta">[Foto y nombre del equipo real — CONFIRMAR CON CLIENTE]</span>
+          </p>
+          <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <article class="team-card">
+              <div class="team-card__photo"><span aria-hidden="true">?</span></div>
+              <p class="team-card__name">[Nombre]</p>
+              <p class="team-card__role">[Especialidad]</p>
+            </article>
+            <article class="team-card">
+              <div class="team-card__photo"><span aria-hidden="true">?</span></div>
+              <p class="team-card__name">[Nombre]</p>
+              <p class="team-card__role">[Especialidad]</p>
+            </article>
+            <article class="team-card">
+              <div class="team-card__photo"><span aria-hidden="true">?</span></div>
+              <p class="team-card__name">[Nombre]</p>
+              <p class="team-card__role">[Especialidad]</p>
+            </article>
+            <article class="team-card">
+              <div class="team-card__photo"><span aria-hidden="true">?</span></div>
+              <p class="team-card__name">[Nombre]</p>
+              <p class="team-card__role">[Especialidad]</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== INSTAGRAM ===================== -->
+      <section id="instagram" class="mx-auto max-w-editorial px-5 py-24 md:px-8 md:py-32">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p class="mb-4 text-[12px] uppercase tracking-[0.18em] text-electric">
+              FIG. 06 — Instagram
+            </p>
+            <h2 class="font-display text-[clamp(2rem,5vw,3.5rem)] font-700 leading-[0.95] tracking-tightest">
+              @disenodesonrisaschile
+            </h2>
+          </div>
+          <a
+            href="https://www.instagram.com/disenodesonrisaschile/"
+            target="_blank"
+            rel="noopener"
+            class="rounded-full border border-ink/15 px-6 py-3 text-[14px] font-500 transition-colors hover:border-ink"
+            >Seguir</a
+          >
+        </div>
+        <div class="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <!-- 6 placeholders de posts -->
+          <a class="ig-cell" href="https://www.instagram.com/disenodesonrisaschile/" target="_blank" rel="noopener"><span>01</span></a>
+          <a class="ig-cell" href="https://www.instagram.com/disenodesonrisaschile/" target="_blank" rel="noopener"><span>02</span></a>
+          <a class="ig-cell" href="https://www.instagram.com/disenodesonrisaschile/" target="_blank" rel="noopener"><span>03</span></a>
+          <a class="ig-cell" href="https://www.instagram.com/disenodesonrisaschile/" target="_blank" rel="noopener"><span>04</span></a>
+          <a class="ig-cell" href="https://www.instagram.com/disenodesonrisaschile/" target="_blank" rel="noopener"><span>05</span></a>
+          <a class="ig-cell" href="https://www.instagram.com/disenodesonrisaschile/" target="_blank" rel="noopener"><span>06</span></a>
+        </div>
+        <p class="mt-4 text-[13px] text-meta">[Grid demo — conectar feed real de Instagram]</p>
+      </section>
+
+      <!-- ===================== UBICACIÓN ===================== -->
+      <section id="ubicacion" class="border-t border-ink/10 bg-paper">
+        <div class="mx-auto grid max-w-editorial gap-10 px-5 py-24 md:grid-cols-2 md:px-8 md:py-32">
+          <div>
+            <p class="mb-4 text-[12px] uppercase tracking-[0.18em] text-electric">
+              FIG. 07 — Ubicación
+            </p>
+            <h2 class="font-display text-[clamp(2rem,5vw,3.5rem)] font-700 leading-[0.95] tracking-tightest">
+              Tomás Moro 1806,<br />Las Condes.
+            </h2>
+            <dl class="mt-10 space-y-6 text-[15px]">
+              <div>
+                <dt class="text-[12px] uppercase tracking-[0.14em] text-meta">Dirección</dt>
+                <dd class="mt-1">Tomás Moro 1806, Las Condes, Santiago</dd>
+              </div>
+              <div>
+                <dt class="text-[12px] uppercase tracking-[0.14em] text-meta">Horario</dt>
+                <dd class="mt-1">Lunes a Viernes · 9:00 – 19:30</dd>
+              </div>
+              <div>
+                <dt class="text-[12px] uppercase tracking-[0.14em] text-meta">Teléfono · WhatsApp</dt>
+                <dd class="mt-1">
+                  <a class="underline-offset-2 hover:underline" href="tel:+56949324186">+56 9 4932 4186</a>
+                </dd>
+              </div>
+            </dl>
+          </div>
+          <div class="overflow-hidden rounded-2xl border border-ink/10">
+            <iframe
+              title="Mapa de Diseño de Sonrisas en Tomás Moro 1806, Las Condes"
+              src="https://www.google.com/maps?q=Tom%C3%A1s%20Moro%201806%2C%20Las%20Condes%2C%20Santiago&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              class="h-full min-h-[340px] w-full"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== CONTACTO / AGENDA ===================== -->
+      <section id="contacto" class="mx-auto max-w-editorial px-5 py-24 md:px-8 md:py-32">
+        <div class="grid gap-12 md:grid-cols-2 md:gap-16">
+          <div>
+            <p class="mb-4 text-[12px] uppercase tracking-[0.18em] text-electric">
+              FIG. 08 — Agenda
+            </p>
+            <h2 class="font-display text-[clamp(2.2rem,6vw,4rem)] font-700 leading-[0.92] tracking-tightest">
+              Diseñemos tu sonrisa.
+            </h2>
+            <p class="mt-6 max-w-md text-lg text-ink/70">
+              La forma más rápida de empezar es por WhatsApp. Te respondemos en
+              horario de atención.
+            </p>
+            <a
+              href="https://wa.me/56949324186?text=Hola%2C%20quiero%20agendar%20una%20evaluaci%C3%B3n%20para%20dise%C3%B1ar%20mi%20sonrisa."
+              target="_blank"
+              rel="noopener"
+              class="mt-8 inline-flex items-center gap-3 rounded-full bg-electric px-7 py-4 text-[16px] font-500 text-white transition-transform hover:-translate-y-0.5"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01c-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.41-.56-.42l-.48-.01c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>
+              Escribir por WhatsApp
+            </a>
+            <p class="mt-6 text-[13px] text-meta">
+              Demo: próximamente se integrará agenda online
+              (Dentalink / AgendaPro / Reservo).
+            </p>
+          </div>
+
+          <!-- Formulario demo (simula envío) -->
+          <form id="contact-form" class="contact-form" novalidate>
+            <div class="contact-form__row">
+              <label for="cf-name">Nombre</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required placeholder="Tu nombre" />
+            </div>
+            <div class="contact-form__row">
+              <label for="cf-phone">Teléfono</label>
+              <input id="cf-phone" name="phone" type="tel" autocomplete="tel" required placeholder="+56 9 ..." />
+            </div>
+            <div class="contact-form__row">
+              <label for="cf-service">¿Qué te interesa?</label>
+              <select id="cf-service" name="service">
+                <option>Diseño de sonrisa</option>
+                <option>Carillas</option>
+                <option>Ortodoncia / Invisalign</option>
+                <option>Blanqueamiento</option>
+                <option>Implantes</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div class="contact-form__row">
+              <label for="cf-msg">Mensaje</label>
+              <textarea id="cf-msg" name="message" rows="3" placeholder="Cuéntanos qué buscas"></textarea>
+            </div>
+            <button type="submit" class="contact-form__submit">Enviar solicitud</button>
+            <p id="cf-status" class="contact-form__status" role="status" aria-live="polite"></p>
+            <p class="contact-form__note">
+              Formulario demo: no envía datos a ningún servidor. La conversión
+              real es por WhatsApp.
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="border-t border-ink/10 bg-white">
+      <div class="mx-auto max-w-editorial px-5 py-16 md:px-8">
+        <div class="grid gap-10 md:grid-cols-[2fr_1fr_1fr]">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="inline-block h-2.5 w-2.5 rounded-full bg-electric" aria-hidden="true"></span>
+              <span class="font-display text-[15px] font-700 tracking-tightest">Diseño de Sonrisas</span>
+            </div>
+            <p class="mt-4 max-w-xs text-[14px] text-ink/60">
+              Estudio de odontología estética. No improvisamos sonrisas: las
+              diseñamos.
+            </p>
+          </div>
+          <div class="text-[14px]">
+            <p class="text-[12px] uppercase tracking-[0.14em] text-meta">Contacto</p>
+            <ul class="mt-3 space-y-2 text-ink/70">
+              <li><a class="hover:text-ink" href="tel:+56949324186">+56 9 4932 4186</a></li>
+              <li>
+                <a class="hover:text-ink" href="mailto:contacto@disenodesonrisas.cl">contacto@disenodesonrisas.cl</a>
+                <span class="text-meta">(propuesto)</span>
+              </li>
+              <li><a class="hover:text-ink" href="https://www.instagram.com/disenodesonrisaschile/" target="_blank" rel="noopener">@disenodesonrisaschile</a></li>
+            </ul>
+          </div>
+          <div class="text-[14px]">
+            <p class="text-[12px] uppercase tracking-[0.14em] text-meta">Visítanos</p>
+            <ul class="mt-3 space-y-2 text-ink/70">
+              <li>Tomás Moro 1806</li>
+              <li>Las Condes, Santiago</li>
+              <li>L–V · 9:00–19:30</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-12 flex flex-col gap-2 border-t border-ink/10 pt-6 text-[12px] text-meta sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span id="year"></span> Diseño de Sonrisas · Las Condes, Santiago de Chile</p>
+          <p>Sitio demo no oficial · pieza de portafolio</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
