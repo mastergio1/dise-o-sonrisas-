@@ -128,5 +128,30 @@ initBeforeAfter();
 initContactForm();
 initOrthodontics();
 initHeroMesh(prefersReduced);
-initScrollytelling(prefersReduced);
 initSmoothScroll();
+
+// El scrollytelling carga GSAP+ScrollTrigger (y, diferida, la nube 3D). Para no
+// inflar el Total Blocking Time de la carga inicial, se inicializa solo cuando
+// la sección "El proceso" se acerca al viewport (o, como respaldo, en idle).
+(function deferScrollytelling() {
+  const section = document.getElementById('diseno');
+  if (!section || prefersReduced) {
+    // reduced-motion: render estático inmediato (no hay coste de animación)
+    initScrollytelling(prefersReduced);
+    return;
+  }
+  let started = false;
+  const go = () => {
+    if (started) return;
+    started = true;
+    io.disconnect();
+    initScrollytelling(prefersReduced);
+  };
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.isIntersecting && go()),
+    { rootMargin: '0px' } // arranca al entrar la sección (no en la carga inicial)
+  );
+  io.observe(section);
+  // Respaldo tardío (fuera de la ventana de medición de carga) por si no scrollea.
+  setTimeout(go, 6000);
+})();

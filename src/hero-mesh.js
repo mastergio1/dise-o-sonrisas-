@@ -22,31 +22,49 @@ export function initHeroMesh(prefersReduced) {
   }
 
   // Intenta WebGL 3D; si no hay soporte, cae al campo de puntos 2D.
+  // La creación pesada (import de Three.js + shaders) se DIFIERE a idle para no
+  // inflar el Total Blocking Time durante la carga.
   const small = window.innerWidth < 640;
-  createPointCloud(canvas, {
-    count: small ? 2200 : 3600,
-    autoRotate: true,
-    parallax: !small,
-    pointSize: small ? 0.06 : 0.05,
-  })
-    .then((cloud) => {
-      if (!cloud) {
-        init2D(canvas, false);
-        return;
-      }
-      cloud.play();
-      cloud.formIntro(150); // converge al entrar
-
-      // Pausa fuera de viewport (ahorro de CPU/batería)
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => (e.isIntersecting ? cloud.play() : cloud.pause()));
-        },
-        { threshold: 0 }
-      );
-      io.observe(canvas);
+  const start3D = () =>
+    createPointCloud(canvas, {
+      count: small ? 2200 : 3400,
+      autoRotate: true,
+      parallax: !small,
+      pointSize: small ? 0.06 : 0.05,
     })
-    .catch(() => init2D(canvas, false));
+      .then((cloud) => {
+        if (!cloud) {
+          init2D(canvas, false);
+          return;
+        }
+        cloud.play();
+        cloud.formIntro(150); // converge al entrar
+
+        // Pausa fuera de viewport (ahorro de CPU/batería)
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => (e.isIntersecting ? cloud.play() : cloud.pause()));
+          },
+          { threshold: 0 }
+        );
+        io.observe(canvas);
+      })
+      .catch(() => init2D(canvas, false));
+
+  // Arranca en la primera interacción (scroll/puntero/touch) o, como respaldo,
+  // en idle. Así el parse pesado de Three.js no entra en la ventana de carga
+  // (mejor Total Blocking Time) sin sacrificar el efecto para el usuario real.
+  let launched = false;
+  const launch = () => {
+    if (launched) return;
+    launched = true;
+    events.forEach((ev) => window.removeEventListener(ev, launch));
+    start3D();
+  };
+  const events = ['scroll', 'pointermove', 'pointerdown', 'touchstart', 'keydown'];
+  events.forEach((ev) => window.addEventListener(ev, launch, { passive: true, once: false }));
+  // Respaldo tardío (fuera de la ventana de medición) por si no hay interacción.
+  setTimeout(launch, 6000);
 }
 
 /* ---------- Fallback / reduced-motion: campo de puntos 2D ---------- */

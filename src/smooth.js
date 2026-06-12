@@ -21,6 +21,13 @@ export function initLenis(prefersReduced) {
       smoothWheel: true,
     });
     window.__lenis = _lenis;
+    // Bucle RAF propio: así Lenis funciona aunque el scrollytelling (y GSAP) se
+    // carguen de forma diferida más abajo en la página.
+    const raf = (time) => {
+      _lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
     return _lenis;
   });
   return _promise;

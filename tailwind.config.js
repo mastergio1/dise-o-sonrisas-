@@ -8,7 +8,8 @@ export default {
         paper: '#F5F5F3', // gris papel (base)
         ink: '#111111', // tinta negra (tipografía)
         electric: '#2B4CFF', // único acento: azul eléctrico
-        meta: '#8A8A8A', // gris medio (metadatos)
+        'electric-soft': '#8AA0FF', // variante clara para texto sobre fondo oscuro
+        meta: '#6E6E6E', // gris medio (metadatos) — contraste AA sobre blanco
       },
       fontFamily: {
         // display grotesca contundente + Inter para texto
