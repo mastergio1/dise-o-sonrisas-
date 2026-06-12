@@ -8,6 +8,7 @@
  */
 import { buildSmileSVG } from './smile-svg.js';
 import { initLenis } from './smooth.js';
+import { createPointCloud } from './point-cloud-3d.js';
 
 const STEPS = [
   { step: '01 / 04', label: 'Escaneo 3D', note: 'Sin pastas de impresión' },
@@ -63,6 +64,28 @@ export async function initScrollytelling(prefersReduced) {
   };
   setHud(0);
 
+  // ---- Capa Escaneo en 3D (WebGL) ----
+  // Superpone una nube de puntos Three.js sobre la etapa; su formación
+  // (disperso → sonrisa) se controla con el scroll. Si no hay WebGL, se
+  // mantienen los puntos SVG (.scan-dot) como fallback.
+  const canvasFigure = stage.parentElement; // .scrolly__canvas
+  const scanCanvas = document.createElement('canvas');
+  scanCanvas.className = 'scrolly__scan3d';
+  scanCanvas.id = 'scan3d';
+  scanCanvas.setAttribute('aria-hidden', 'true');
+  canvasFigure.insertBefore(scanCanvas, stage.nextSibling); // sobre el SVG
+  const scan3d = await createPointCloud(scanCanvas, {
+    count: window.innerWidth < 640 ? 1800 : 2600,
+    autoRotate: false,
+    parallax: false,
+    pointSize: window.innerWidth < 640 ? 0.06 : 0.05,
+  });
+  if (scan3d) {
+    scan3d.setFormation(0);
+  } else {
+    scanCanvas.remove(); // sin WebGL: quedan los .scan-dot del SVG
+  }
+
   // Integra Lenis con ScrollTrigger ANTES de crear el timeline: un único bucle
   // RAF (el de GSAP) impulsa Lenis y cada scroll de Lenis actualiza
   // ScrollTrigger. Sin esto, el scrub queda desfasado del scroll suavizado.
@@ -102,18 +125,31 @@ export async function initScrollytelling(prefersReduced) {
     .to('#frame', { opacity: 1, duration: 0.25 }, 0)
     .to('#scan-line', { opacity: 1, duration: 0.08 }, 0)
     .to('#scan-line', { attr: { y1: 445, y2: 445 }, duration: 0.7 }, 0)
-    .to(
+    .to('#scan-line', { opacity: 0, duration: 0.15 }, 0.7);
+
+  if (scan3d) {
+    // Nube de puntos 3D: converge (disperso → sonrisa) con el scroll y luego
+    // se desvanece para ceder el lienzo a las capas SVG.
+    gsap.set('#scan3d', { opacity: 1 });
+    const f = { v: 0 };
+    tl.to(f, { v: 1, duration: 0.85, onUpdate: () => scan3d.setFormation(f.v) }, 0).to(
+      '#scan3d',
+      { opacity: 0, duration: 0.3 },
+      1.0
+    );
+  } else {
+    // Fallback SVG: los .scan-dot aparecen formando la sonrisa
+    tl.to(
       qa('.scan-dot'),
       { opacity: 1, scale: 1, duration: 0.5, stagger: { each: 0.003, from: 'center' } },
       0.05
-    )
-    .to('#scan-line', { opacity: 0, duration: 0.15 }, 0.7);
+    );
+  }
 
   // ---- CAPA 02: ESTRUCTURA (1 → 2) ----
   tl.call(() => setHud(1), null, 1)
     .to('#layer-structure', { opacity: 1, duration: 0.15 }, 1)
     .to('#ruler', { opacity: 1, duration: 0.25 }, 1)
-    .to(qa('.scan-dot'), { opacity: 0.12, duration: 0.4 }, 1)
     .to(qa('.guide-v'), { strokeDashoffset: 0, duration: 0.5, stagger: 0.02 }, 1.05)
     .to('#smile-curve', { strokeDashoffset: 0, duration: 0.55 }, 1.2)
     .to(
@@ -121,13 +157,14 @@ export async function initScrollytelling(prefersReduced) {
       { opacity: 1, scale: 1, duration: 0.35, stagger: { each: 0.02, from: 'edges' } },
       1.45
     );
+  if (!scan3d) tl.to(qa('.scan-dot'), { opacity: 0.12, duration: 0.4 }, 1);
 
   // ---- CAPA 03: FORMA (2 → 3) ----
   tl.call(() => setHud(2), null, 2)
     .to(qa('.tooth'), { strokeDashoffset: 0, duration: 0.6, stagger: 0.03 }, 2)
     .to(qa('.tooth'), { fillOpacity: 1, duration: 0.5, stagger: 0.025 }, 2.35)
-    .to('#layer-structure', { opacity: 0.35, duration: 0.4 }, 2.5)
-    .to(qa('.scan-dot'), { opacity: 0, duration: 0.3 }, 2);
+    .to('#layer-structure', { opacity: 0.35, duration: 0.4 }, 2.5);
+  if (!scan3d) tl.to(qa('.scan-dot'), { opacity: 0, duration: 0.3 }, 2);
 
   // ---- CAPA 04: COLOR (3 → 4, con hold final) ----
   // La barra eléctrica barre los dientes y, a su paso, el relleno pasa de

@@ -45,20 +45,35 @@ Requiere Node 18+.
 
 - **Vite 6** + HTML/CSS/JS vanilla + **Tailwind CSS 3** (mismo stack que las
   webs #1–#3 del portafolio).
-- **GSAP + ScrollTrigger** (lazy-load, chunk aparte) para el scrollytelling por
-  capas y micro-interacciones.
+- **Three.js (WebGL)** para la nube de puntos 3D del Hero y de la capa Escaneo
+  (lazy-load, chunk aparte).
+- **GSAP + ScrollTrigger** (lazy-load) para el scrollytelling por capas y
+  micro-interacciones, integrado con Lenis.
 - **Lenis** para smooth scrolling (lazy-load; se desactiva con reduced-motion).
-- **SVG procedimental** para la sonrisa y las ilustraciones de ortodoncia.
-- **Canvas 2D** para la malla de puntos del Hero.
+- **SVG procedimental** para la sonrisa del scrollytelling y las ilustraciones
+  de ortodoncia.
 
-### Sobre Three.js (decisión de implementación)
+### Efecto 3D (Three.js) y degradación elegante
 
-El prompt contempla Three.js (points cloud) como **opción** para la capa de
-Escaneo, con fallback SVG. Para proteger el objetivo Lighthouse 90+ y un LCP
-rápido, se eligió el **camino de fallback**: la nube de puntos del Hero usa
-canvas 2D y la capa de Escaneo del scrollytelling usa puntos SVG animados con
-GSAP. Si más adelante se quiere elevar la capa Escaneo con Three.js, debe
-hacerse con `import()` diferido y manteniendo el fallback actual.
+La nube de puntos 3D (arcada dental en U con profundidad, que alude al escáner
+intraoral real) se implementa con Three.js en `src/point-cloud-3d.js` y se usa
+en dos lugares:
+
+1. **Hero** — converge al entrar, con auto-rotación y parallax con el puntero.
+2. **Capa Escaneo** del scrollytelling — la formación (disperso → sonrisa) se
+   controla con el **scroll**; al terminar se desvanece y ceden el lienzo las
+   capas SVG.
+
+Three.js se carga de forma **diferida** (`import()` dinámico, chunk separado),
+así que no penaliza el LCP. Degradación en cascada:
+
+- **Sin WebGL** → fallback a campo de puntos **canvas 2D** (Hero) y a puntos
+  **SVG** animados (capa Escaneo). Detección en `webglSupported()`.
+- **`prefers-reduced-motion`** → un único frame estático en el Hero y el
+  scrollytelling como 4 paneles secuenciales (sin WebGL en bucle).
+
+Para ajustar densidad/tamaño de los puntos: `count` y `pointSize` en las
+llamadas a `createPointCloud()` (en `src/hero-mesh.js` y `src/scrollytelling.js`).
 
 ---
 

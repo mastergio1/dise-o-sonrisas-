@@ -135,6 +135,14 @@
   position: absolute;
   inset: 0;
 }
+/* Overlay WebGL de la capa Escaneo (nube de puntos 3D) */
+.scrolly__scan3d {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 .scrolly__stage svg {
   width: 100%;
   height: 100%;
