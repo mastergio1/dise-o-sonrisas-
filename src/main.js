@@ -2,6 +2,7 @@ import './style.css';
 import { initHeroMesh } from './hero-mesh.js';
 import { initScrollytelling } from './scrollytelling.js';
 import { initOrthodontics } from './orthodontics.js';
+import { initLenis } from './smooth.js';
 
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -39,40 +40,24 @@ function initReveal() {
   targets.forEach((el) => io.observe(el));
 }
 
-/* ---------- Smooth scroll (Lenis) ---------- */
+/* ---------- Smooth scroll (Lenis) ----------
+   Lenis se crea como singleton en smooth.js; scrollytelling.js impulsa su RAF
+   vía el ticker de GSAP y lo integra con ScrollTrigger. Aquí solo cableamos las
+   anclas suaves cuando la instancia esté lista. */
 async function initSmoothScroll() {
-  if (prefersReduced) return; // respeta reduced-motion: scroll nativo
-  try {
-    const { default: Lenis } = await import('lenis');
-    const lenis = new Lenis({
-      duration: 1.05,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+  const lenis = await initLenis(prefersReduced);
+  if (!lenis) return; // reduced-motion: scroll nativo (CSS scroll-behavior)
 
-    // Anclas suaves
-    document.querySelectorAll('a[href^="#"]').forEach((a) => {
-      a.addEventListener('click', (e) => {
-        const id = a.getAttribute('href');
-        if (!id || id === '#') return;
-        const target = document.querySelector(id);
-        if (!target) return;
-        e.preventDefault();
-        lenis.scrollTo(target, { offset: -64 });
-      });
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (!id || id === '#') return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -64 });
     });
-
-    // Sincroniza Lenis con ScrollTrigger si está cargado
-    window.__lenis = lenis;
-  } catch (err) {
-    // Sin Lenis seguimos con scroll nativo (CSS scroll-behavior: smooth)
-    console.warn('Lenis no disponible, scroll nativo activo.', err);
-  }
+  });
 }
 
 /* ---------- Antes / Después ---------- */

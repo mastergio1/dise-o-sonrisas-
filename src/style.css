@@ -93,23 +93,42 @@
   position: relative;
 }
 
-/* El lienzo se queda pegado mientras los pasos hacen scroll por encima */
-.scrolly__sticky {
-  position: sticky;
-  top: 0;
+/* Patrón "pinned": #scrolly define la longitud de scroll (altura alta) y
+   .scrolly__pin se fija (ScrollTrigger pin) mientras el scroll cruza las 4
+   capas. Los bloques de texto hacen cross-fade dentro de la etapa fija.
+   ScrollTrigger mide el pin de forma fiable (sin trucos de margin negativo). */
+#scrolly {
+  position: relative;
+  height: 440svh; /* 4 capas + hold final; controla la longitud del scrub */
+}
+
+.scrolly__pin {
   height: 100svh;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
-  pointer-events: none;
+}
+
+.scrolly__inner {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 6svh 1.25rem 0;
+  display: flex;
+  flex-direction: column; /* MOBILE: lienzo arriba, texto abajo */
+  align-items: center;
+  gap: 1.5rem;
+  height: 100%;
+  justify-content: flex-start;
 }
 
 .scrolly__canvas {
   position: relative;
-  width: min(92vw, 760px);
+  order: -1; /* lienzo arriba en mobile */
+  width: min(74vw, 380px);
   aspect-ratio: 1 / 1;
-  max-height: 78svh;
-  margin: 0 auto;
+  max-height: 42svh;
+  flex-shrink: 0;
 }
 
 .scrolly__stage {
@@ -127,11 +146,14 @@
 .scrolly__hud {
   position: absolute;
   left: 0;
-  bottom: -2.5rem;
+  right: 0;
+  bottom: -2.1rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.75rem;
-  font-size: 12px;
+  justify-content: center;
+  gap: 0.4rem 0.7rem;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -149,59 +171,67 @@
   letter-spacing: 0;
 }
 
-/* Los pasos de texto */
-.scrolly__steps {
+/* Bloques de texto: apilados (grid 1/1) para cross-fade */
+.scrolly__texts {
   position: relative;
-  z-index: 2;
-  margin-top: -100svh; /* superponer sobre el sticky */
-  pointer-events: none;
+  display: grid;
+  width: 100%;
+  max-width: 30rem;
+  margin-top: 2.5rem;
 }
-.scrolly__panel {
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
+.scrolly__text {
+  grid-area: 1 / 1;
+  opacity: 0;
 }
-.scrolly__panel > * {
-  pointer-events: auto;
-  max-width: 28rem;
+.scrolly__text[data-step='0'] {
+  opacity: 1; /* estado inicial sin FOUC antes de que cargue GSAP */
 }
 .scrolly__panel-tag {
+  display: block;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--electric);
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
 }
 .scrolly__panel-title {
   font-family: 'Space Grotesk', system-ui, sans-serif;
   font-weight: 700;
   letter-spacing: -0.03em;
-  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  font-size: clamp(1.7rem, 4.5vw, 3rem);
   line-height: 0.98;
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
 }
-.scrolly__panel p {
-  font-size: 1.05rem;
+.scrolly__text p {
+  font-size: 1.02rem;
   line-height: 1.6;
   color: rgba(17, 17, 17, 0.72);
 }
 
 @media (min-width: 768px) {
-  /* En desktop el texto va a la izquierda y el lienzo a la derecha */
-  .scrolly__sticky {
-    justify-content: flex-end;
-    padding-right: max(2rem, calc((100vw - 1320px) / 2 + 2rem));
+  /* DESKTOP: texto a la izquierda, lienzo a la derecha */
+  .scrolly__inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    padding: 0 2rem;
   }
   .scrolly__canvas {
-    margin: 0;
-    width: min(46vw, 600px);
+    order: 0;
+    width: min(46vw, 560px);
+    max-height: 76svh;
   }
-  .scrolly__panel {
-    padding-left: max(2rem, calc((100vw - 1320px) / 2 + 2rem));
+  .scrolly__hud {
+    right: auto;
+    justify-content: flex-start;
+    bottom: -2.5rem;
+    font-size: 12px;
+    flex-wrap: nowrap;
+  }
+  .scrolly__texts {
+    margin-top: 0;
+    flex: 1;
   }
 }
 

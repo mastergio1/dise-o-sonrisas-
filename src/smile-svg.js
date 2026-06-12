@@ -80,10 +80,12 @@ export function buildSmileSVG() {
   const teeth = buildTeeth();
   const pts = scanPoints(teeth);
 
+  // Los dientes nacen con un tono "antes" (marfil apagado) y la capa Color los
+  // lleva a blanco puro; así el blanqueamiento es visible.
   const teethPaths = teeth
     .map(
       (t) =>
-        `<path class="tooth" data-i="${t.i}" d="${t.d}" pathLength="100" fill="#ffffff" stroke="#111111" stroke-width="1.6" stroke-linejoin="round"/>`
+        `<path class="tooth" data-i="${t.i}" d="${t.d}" pathLength="100" fill="#E9E6DF" stroke="#111111" stroke-width="1.6" stroke-linejoin="round"/>`
     )
     .join('');
 
@@ -138,10 +140,10 @@ export function buildSmileSVG() {
   const svg = `
   <svg viewBox="0 0 ${VIEW} ${VIEW}" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
     <defs>
-      <linearGradient id="whiten" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#cfd9ff"/>
-        <stop offset="50%" stop-color="#ffffff"/>
-        <stop offset="100%" stop-color="#ffffff"/>
+      <linearGradient id="whitenBar" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#2B4CFF" stop-opacity="0"/>
+        <stop offset="50%" stop-color="#2B4CFF" stop-opacity="0.55"/>
+        <stop offset="100%" stop-color="#2B4CFF" stop-opacity="0"/>
       </linearGradient>
       <clipPath id="teethClip">${teeth.map((t) => `<path d="${t.d}"/>`).join('')}</clipPath>
     </defs>
@@ -152,13 +154,13 @@ export function buildSmileSVG() {
       <text x="86" y="162" font-family="'Space Grotesk',sans-serif" font-size="13" fill="#2B4CFF" letter-spacing="1">FIG. 01 — SONRISA</text>
     </g>
 
-    <!-- CAPA 04: tinte de blanqueamiento (clip a los dientes) -->
-    <g id="layer-color" opacity="0">
-      <rect id="whiten-sweep" x="86" y="170" width="428" height="280" fill="url(#whiten)" clip-path="url(#teethClip)"/>
-    </g>
-
-    <!-- CAPA 02/03: los dientes (forma) -->
+    <!-- CAPA 02/03: los dientes (forma). El blanqueamiento cambia su relleno. -->
     <g id="layer-form">${teethPaths}</g>
+
+    <!-- CAPA 04: barra de blanqueamiento que barre (recortada a los dientes) -->
+    <g id="layer-color" opacity="0" clip-path="url(#teethClip)">
+      <rect id="whiten-bar" x="40" y="170" width="70" height="280" fill="url(#whitenBar)"/>
+    </g>
 
     <!-- CAPA 02: estructura / guías -->
     <g id="layer-structure" opacity="0">
@@ -175,9 +177,9 @@ export function buildSmileSVG() {
     <line id="scan-line" x1="86" y1="170" x2="514" y2="170" stroke="#2B4CFF" stroke-width="2" opacity="0"/>
 
     <!-- Check "Diseño aprobado" -->
-    <g id="approved" opacity="0" transform="translate(300 486)">
-      <circle r="17" fill="#2B4CFF"/>
-      <path d="M -7 0 L -2 6 L 8 -6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <g id="approved" opacity="0" transform="translate(300 432)">
+      <circle r="16" fill="#2B4CFF"/>
+      <path d="M -6.5 0 L -2 5.5 L 7.5 -5.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
   </svg>`;
 

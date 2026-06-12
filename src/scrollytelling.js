@@ -7,6 +7,7 @@
  * (sin scrub, sin pin), cumpliendo el requisito de accesibilidad.
  */
 import { buildSmileSVG } from './smile-svg.js';
+import { initLenis } from './smooth.js';
 
 const STEPS = [
   { step: '01 / 04', label: 'Escaneo 3D', note: 'Sin pastas de impresión' },
@@ -47,7 +48,7 @@ export async function initScrollytelling(prefersReduced) {
   gsap.set(qa('.ctrl-pt'), { opacity: 0, scale: 0, transformOrigin: 'center' });
   gsap.set('#ruler', { opacity: 0 });
   gsap.set('#layer-color', { opacity: 0 });
-  gsap.set('#whiten-sweep', { attr: { x: -342 } });
+  gsap.set('#whiten-bar', { attr: { x: 40 } });
   gsap.set('#frame', { opacity: 0 });
   gsap.set('#approved', { opacity: 0, scale: 0, transformOrigin: 'center' });
   gsap.set('#scan-line', { opacity: 0, attr: { y1: 175, y2: 175 } });
@@ -62,64 +63,89 @@ export async function initScrollytelling(prefersReduced) {
   };
   setHud(0);
 
+  // Integra Lenis con ScrollTrigger ANTES de crear el timeline: un único bucle
+  // RAF (el de GSAP) impulsa Lenis y cada scroll de Lenis actualiza
+  // ScrollTrigger. Sin esto, el scrub queda desfasado del scroll suavizado.
+  const lenis = await initLenis(false);
+  if (lenis) {
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  // Timeline de 4 unidades: una por capa (escaneo·estructura·forma·color).
+  // La etapa se fija con pin; cada capa ocupa 1 unidad, con un "hold" final.
+  const texts = Array.from(document.querySelectorAll('.scrolly__text'));
+  gsap.set(texts, { opacity: 0 });
+  gsap.set(texts[0], { opacity: 1 });
+
   const tl = gsap.timeline({
+    defaults: { ease: 'none' },
     scrollTrigger: {
       trigger: '#scrolly',
       start: 'top top',
       end: 'bottom bottom',
+      pin: '#scrolly-pin',
+      pinSpacing: false, // #scrolly ya aporta la altura del scroll
       scrub: 0.6,
     },
   });
 
-  // ---- CAPA 01: ESCANEO ----
-  tl.addLabel('scan')
-    .to('#frame', { opacity: 1, duration: 0.3 }, 'scan')
-    .to('#scan-line', { opacity: 1, duration: 0.1 }, 'scan')
-    .to('#scan-line', { attr: { y1: 445, y2: 445 }, duration: 1, ease: 'none' }, 'scan')
+  // Cross-fade de los bloques de texto en los límites de cada capa
+  const fadeText = (from, to, at) => {
+    if (texts[from]) tl.to(texts[from], { opacity: 0, duration: 0.2 }, at);
+    if (texts[to]) tl.to(texts[to], { opacity: 1, duration: 0.2 }, at + 0.05);
+  };
+
+  // ---- CAPA 01: ESCANEO (0 → 1) ----
+  tl.call(() => setHud(0), null, 0)
+    .to('#frame', { opacity: 1, duration: 0.25 }, 0)
+    .to('#scan-line', { opacity: 1, duration: 0.08 }, 0)
+    .to('#scan-line', { attr: { y1: 445, y2: 445 }, duration: 0.7 }, 0)
     .to(
       qa('.scan-dot'),
-      { opacity: 1, scale: 1, duration: 0.6, stagger: { each: 0.004, from: 'center' } },
-      'scan'
+      { opacity: 1, scale: 1, duration: 0.5, stagger: { each: 0.003, from: 'center' } },
+      0.05
     )
-    .to('#scan-line', { opacity: 0, duration: 0.2 }, 'scan+=1')
-    .call(() => setHud(0), null, 'scan');
+    .to('#scan-line', { opacity: 0, duration: 0.15 }, 0.7);
 
-  // ---- CAPA 02: ESTRUCTURA ----
-  tl.addLabel('structure', '+=0.3')
-    .call(() => setHud(1), null, 'structure')
-    .to('#layer-structure', { opacity: 1, duration: 0.2 }, 'structure')
-    .to('#ruler', { opacity: 1, duration: 0.3 }, 'structure')
-    .to(qa('.guide-v'), { strokeDashoffset: 0, duration: 0.7, stagger: 0.03 }, 'structure')
-    .to('#smile-curve', { strokeDashoffset: 0, duration: 0.8 }, 'structure+=0.2')
+  // ---- CAPA 02: ESTRUCTURA (1 → 2) ----
+  tl.call(() => setHud(1), null, 1)
+    .to('#layer-structure', { opacity: 1, duration: 0.15 }, 1)
+    .to('#ruler', { opacity: 1, duration: 0.25 }, 1)
+    .to(qa('.scan-dot'), { opacity: 0.12, duration: 0.4 }, 1)
+    .to(qa('.guide-v'), { strokeDashoffset: 0, duration: 0.5, stagger: 0.02 }, 1.05)
+    .to('#smile-curve', { strokeDashoffset: 0, duration: 0.55 }, 1.2)
     .to(
       qa('.ctrl-pt'),
-      { opacity: 1, scale: 1, duration: 0.4, stagger: { each: 0.03, from: 'edges' } },
-      'structure+=0.4'
-    )
-    // los puntos de escaneo se desvanecen al consolidarse la estructura
-    .to(qa('.scan-dot'), { opacity: 0.12, duration: 0.5 }, 'structure+=0.2');
+      { opacity: 1, scale: 1, duration: 0.35, stagger: { each: 0.02, from: 'edges' } },
+      1.45
+    );
 
-  // ---- CAPA 03: FORMA (carillas se dibujan) ----
-  tl.addLabel('form', '+=0.3')
-    .call(() => setHud(2), null, 'form')
-    .to(qa('.tooth'), { strokeDashoffset: 0, duration: 0.8, stagger: 0.04 }, 'form')
-    .to(qa('.tooth'), { fillOpacity: 1, duration: 0.6, stagger: 0.03 }, 'form+=0.4')
-    .to('#layer-structure', { opacity: 0.35, duration: 0.5 }, 'form+=0.5')
-    .to(qa('.scan-dot'), { opacity: 0, duration: 0.3 }, 'form');
+  // ---- CAPA 03: FORMA (2 → 3) ----
+  tl.call(() => setHud(2), null, 2)
+    .to(qa('.tooth'), { strokeDashoffset: 0, duration: 0.6, stagger: 0.03 }, 2)
+    .to(qa('.tooth'), { fillOpacity: 1, duration: 0.5, stagger: 0.025 }, 2.35)
+    .to('#layer-structure', { opacity: 0.35, duration: 0.4 }, 2.5)
+    .to(qa('.scan-dot'), { opacity: 0, duration: 0.3 }, 2);
 
-  // ---- CAPA 04: COLOR (blanqueamiento + aprobado) ----
-  tl.addLabel('color', '+=0.3')
-    .call(() => setHud(3), null, 'color')
-    .to('#layer-color', { opacity: 1, duration: 0.2 }, 'color')
-    .fromTo(
-      '#whiten-sweep',
-      { attr: { x: -342 } },
-      { attr: { x: 86 }, duration: 1, ease: 'none' },
-      'color'
-    )
-    .to('#layer-structure', { opacity: 0, duration: 0.5 }, 'color')
-    .to('#frame', { opacity: 0, duration: 0.5 }, 'color+=0.4')
-    .to('#approved', { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2)' }, 'color+=0.6');
+  // ---- CAPA 04: COLOR (3 → 4, con hold final) ----
+  // La barra eléctrica barre los dientes y, a su paso, el relleno pasa de
+  // marfil "antes" a blanco puro (efecto blanqueamiento, izquierda→derecha).
+  tl.call(() => setHud(3), null, 3)
+    .to('#layer-color', { opacity: 1, duration: 0.12 }, 3)
+    .fromTo('#whiten-bar', { attr: { x: 40 } }, { attr: { x: 500 }, duration: 0.7 }, 3)
+    .to(qa('.tooth'), { fill: '#ffffff', duration: 0.5, stagger: 0.04 }, 3.05)
+    .to('#layer-structure', { opacity: 0, duration: 0.4 }, 3.1)
+    .to('#frame', { opacity: 0, duration: 0.4 }, 3.3)
+    .to('#layer-color', { opacity: 0, duration: 0.25 }, 3.65)
+    .to('#approved', { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' }, 3.6)
+    .to({}, { duration: 0.4 }); // hold: la sonrisa terminada se sostiene
+
+  // Cross-fade del texto en cada cambio de capa
+  fadeText(0, 1, 0.82);
+  fadeText(1, 2, 1.82);
+  fadeText(2, 3, 2.82);
 
   // Refresca medidas tras cargar fuentes/imagenes
   ScrollTrigger.refresh();

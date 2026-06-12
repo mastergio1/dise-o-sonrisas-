@@ -237,58 +237,61 @@
           </p>
         </div>
 
-        <!-- Lienzo sticky con las 4 capas (JS controla la animación) -->
+        <!-- Lienzo + texto: la etapa se fija (pin) y el scroll cruza las 4
+             capas; los bloques de texto hacen cross-fade. -->
         <div id="scrolly" class="scrolly mt-16">
-          <div class="scrolly__sticky">
-            <figure class="scrolly__canvas" role="img" aria-label="Animación de diseño de una sonrisa en cuatro capas: escaneo 3D, estructura con guías de ortodoncia, forma de carillas y color del blanqueamiento.">
-              <!-- El SVG vive en el JS para poder animar stroke/máscaras -->
-              <div id="scrolly-stage" class="scrolly__stage"></div>
-              <figcaption class="scrolly__hud">
-                <span id="scrolly-step" class="scrolly__step">01 / 04</span>
-                <span id="scrolly-label" class="scrolly__label">Escaneo 3D</span>
-                <span id="scrolly-note" class="scrolly__note">Sin pastas de impresión</span>
-              </figcaption>
-            </figure>
-          </div>
+          <div class="scrolly__pin" id="scrolly-pin">
+            <div class="scrolly__inner">
+              <!-- Bloques de texto (cross-fade por capa) -->
+              <div class="scrolly__texts">
+                <article class="scrolly__text" data-step="0">
+                  <span class="scrolly__panel-tag">Capa 01 — Escaneo</span>
+                  <h3 class="scrolly__panel-title">Escaneamos, no moldeamos.</h3>
+                  <p>
+                    Un escáner intraoral 3D captura cada diente en puntos
+                    precisos. Sin pastas, sin arcadas: tu boca se convierte en un
+                    modelo digital que viaja directo al laboratorio.
+                  </p>
+                </article>
+                <article class="scrolly__text" data-step="1">
+                  <span class="scrolly__panel-tag">Capa 02 — Estructura</span>
+                  <h3 class="scrolly__panel-title">Trazamos las guías.</h3>
+                  <p>
+                    Líneas, reglas y curvas alinean la posición de cada pieza.
+                    Aquí entra la ortodoncia —incluido el Flow Jac System— para
+                    mover los dientes con control milimétrico.
+                  </p>
+                </article>
+                <article class="scrolly__text" data-step="2">
+                  <span class="scrolly__panel-tag">Capa 03 — Forma</span>
+                  <h3 class="scrolly__panel-title">Dibujamos la forma.</h3>
+                  <p>
+                    Las carillas cerámicas se diseñan sobre cada diente como
+                    piezas que encajan: proporción, borde y textura pensados para
+                    tu rostro.
+                  </p>
+                </article>
+                <article class="scrolly__text" data-step="3">
+                  <span class="scrolly__panel-tag">Capa 04 — Color</span>
+                  <h3 class="scrolly__panel-title">Afinamos el color.</h3>
+                  <p>
+                    Un blanqueamiento gradúa el tono hasta el punto justo. El
+                    lienzo se limpia y la sonrisa queda lista:
+                    <span class="text-electric">diseño aprobado.</span>
+                  </p>
+                </article>
+              </div>
 
-          <!-- Pasos del scroll (texto que dispara cada capa) -->
-          <div class="scrolly__steps" id="scrolly-steps">
-            <article class="scrolly__panel" data-step="0">
-              <span class="scrolly__panel-tag">Capa 01 — Escaneo</span>
-              <h3 class="scrolly__panel-title">Escaneamos, no moldeamos.</h3>
-              <p>
-                Un escáner intraoral 3D captura cada diente en puntos precisos.
-                Sin pastas, sin arcadas: tu boca se convierte en un modelo
-                digital que viaja directo al laboratorio.
-              </p>
-            </article>
-            <article class="scrolly__panel" data-step="1">
-              <span class="scrolly__panel-tag">Capa 02 — Estructura</span>
-              <h3 class="scrolly__panel-title">Trazamos las guías.</h3>
-              <p>
-                Líneas, reglas y curvas alinean la posición de cada pieza. Aquí
-                entra la ortodoncia —incluido el Flow Jac System— para mover los
-                dientes con control milimétrico.
-              </p>
-            </article>
-            <article class="scrolly__panel" data-step="2">
-              <span class="scrolly__panel-tag">Capa 03 — Forma</span>
-              <h3 class="scrolly__panel-title">Dibujamos la forma.</h3>
-              <p>
-                Las carillas cerámicas se diseñan sobre cada diente como piezas
-                que encajan: proporción, borde y textura pensados para tu
-                rostro.
-              </p>
-            </article>
-            <article class="scrolly__panel" data-step="3">
-              <span class="scrolly__panel-tag">Capa 04 — Color</span>
-              <h3 class="scrolly__panel-title">Afinamos el color.</h3>
-              <p>
-                Un blanqueamiento gradúa el tono hasta el punto justo. El lienzo
-                se limpia y la sonrisa queda lista:
-                <span class="text-electric">diseño aprobado.</span>
-              </p>
-            </article>
+              <figure class="scrolly__canvas" role="img" aria-label="Animación de diseño de una sonrisa en cuatro capas: escaneo 3D, estructura con guías de ortodoncia, forma de carillas y color del blanqueamiento.">
+                <!-- El SVG vive en el JS para poder animar stroke/máscaras -->
+                <div id="scrolly-stage" class="scrolly__stage"></div>
+                <figcaption class="scrolly__hud">
+                  <span id="scrolly-step" class="scrolly__step">01 / 04</span>
+                  <span id="scrolly-label" class="scrolly__label">Escaneo 3D</span>
+                  <span id="scrolly-note" class="scrolly__note">Sin pastas de impresión</span>
+                </figcaption>
+              </figure>
+            </div>
           </div>
         </div>
 
